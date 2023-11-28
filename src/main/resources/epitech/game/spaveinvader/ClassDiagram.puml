@@ -1,0 +1,107 @@
+@startuml
+
+package model {
+
+    package observator {
+        interface Observable {
+            + addObservator(Observator observator) : void
+            + notifyAllObservators() : void
+            + clearObservator() : void
+        }
+
+        interface Observator {
+            + notify(Observable observable) : void
+        }
+    }
+
+    abstract class Entity {
+        # x : int
+        # y : int
+        # alpla : double
+        # life : int
+        # velocity : int
+        + {abstract} launchProjectile() : Projectile
+    }
+
+    class Asteroid {}
+    class Missile {}
+    class Boss {}
+
+    abstract class Enemy {
+        # dx : int
+        # dy : int
+        + {abstract} move(Ship ship) : boolean
+    }
+
+
+    class Ship {
+        + move(Direction) : void
+
+    }
+
+     class Projectile {
+        - x : int
+        - y : int
+        - dx : int
+        - dy : intx
+        + Projectile(int x, int y, int velocity, double alpha)
+        + move() : boolean
+        + setX(int x) : void
+        + getX() : int
+        + setY(int y) : void
+        + getY() : int
+
+     }
+
+     class Game {
+        - ship : Ship
+        -
+
+
+
+     }
+
+    enum Direction {
+        LEFT
+        RIGHT
+        UP
+        DOWN
+    }
+
+    Entity ^-- Ennemy
+    Entity ^-- Ship
+    Observable ^.. Entity
+    Enemy ^-- Asteroid
+    Enemy ^-- Missile
+    Enemy ^-- Boss
+}
+
+package controller {
+
+    class EventHandler {
+        + handle() : void
+    }
+    class ShipMovementControler {
+        - ship : Ship
+        + ShipMovementControler(Ship ship)
+    }
+
+    EventHandler ^.. ShipMovementControler
+}
+
+package view {
+    class GameView {
+    }
+
+    class ShipView {
+    }
+
+    class ProjectileView {
+    }
+
+    Observator ^.. GameView
+    Observator ^.. ShipView
+    Observator ^.. ProjectileView
+
+}
+@enduml
